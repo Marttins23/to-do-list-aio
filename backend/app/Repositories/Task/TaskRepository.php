@@ -61,7 +61,7 @@ class TaskRepository implements TaskRepositoryInterface
      *
      * @author Mateus Ferreira Martins <mateus_martins18@yahoo.com.br>
      * @param  string|int $id
-     * @return bool|null
+     * @return void
      */
     public function delete($id)
     {
