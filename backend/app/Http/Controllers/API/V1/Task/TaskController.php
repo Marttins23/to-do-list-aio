@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\API\V1\Task;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Task;
-use App\Repositories\Task\TaskRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
+use App\Services\Task\TaskService;
+use App\Http\Requests\Task\StoreTaskRequest;
+use App\Http\Requests\Task\UpdateTaskRequest;
 
 /**
  * Controller para manipulacao dos dados da Model 'Task'.
@@ -20,16 +21,16 @@ use Illuminate\Http\JsonResponse;
 class TaskController extends Controller
 {
     /**
-     * Objeto da classe 'TaskRepository', responsavel pela logica de persistencia
+     * Objeto da classe 'taskService', responsavel pela logica de persistencia
      * da Model 'Task'.
      *
-     * @var TaskRepository
+     * @var TaskService
      */
-    protected $taskRepository;
+    protected $taskService;
 
     public function __construct()
     {
-        $this->taskRepository = new TaskRepository();
+        $this->taskService = new TaskService();
     }
 
     /**
@@ -39,19 +40,21 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return $this->taskRepository->all();
+        $tasks = $this->taskService->all();
+
+        return response()->json($tasks, 200);
     }
 
     /**
      * Cria um objeto da Model 'Task' e persiste o registro na tabela 'tasks',
      * dadas as informacoes passadas no request.
      *
-     * @param  Request $request
+     * @param  StoreTaskRequest $request
      * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request)
     {
-        $task = $this->taskRepository->create($request->only('title'));
+        $task = $this->taskService->create($request->safe()->only('title'));
 
         return response()->json($task, 201);
     }
@@ -60,17 +63,17 @@ class TaskController extends Controller
      * Atualiza um registro da tabela 'tasks', tendo como base o identificador
      * do registro e as informacoes passadas no request.
      *
-     * @param  Request $request
+     * @param  UpdateTaskRequest $request
      * @param  string  $id Identificador do registro
      * @return JsonResponse
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateTaskRequest $request, string $id)
     {
-        $task = $this->taskRepository->update(
-            $request->only('title', 'completed'),
+        $task = $this->taskService->update(
+            $request->safe()->only('title', 'completed'),
             $id
         );
-        
+
         return response()->json($task, 200);
     }
 
@@ -84,8 +87,8 @@ class TaskController extends Controller
      */
     public function destroy(string $id)
     {
-        $this->taskRepository->delete($id);
+        $this->taskService->delete($id);
 
-        return response()->json(null, 204);
+        return response()->json([], 204);
     }
 }
