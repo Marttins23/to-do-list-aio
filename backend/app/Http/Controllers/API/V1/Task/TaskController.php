@@ -36,13 +36,11 @@ class TaskController extends Controller
     /**
      * Retorna todos os registros da tabela 'tasks'
      *
-     * @return Collection|Task[]
+     * @return JsonResponse
      */
     public function index()
     {
-        $tasks = $this->taskService->all();
-
-        return response()->json($tasks, 200);
+        return $this->taskService->all();
     }
 
     /**
@@ -54,9 +52,7 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        $task = $this->taskService->create($request->safe()->only('title'));
-
-        return response()->json($task, 201);
+        return $this->taskService->create($request->safe()->only('title'));
     }
 
     /**
@@ -69,12 +65,10 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, string $id)
     {
-        $task = $this->taskService->update(
+        return $this->taskService->update(
             $request->safe()->only('title', 'completed'),
             $id
         );
-
-        return response()->json($task, 200);
     }
 
     /**
@@ -87,8 +81,6 @@ class TaskController extends Controller
      */
     public function destroy(string $id)
     {
-        $this->taskService->delete($id);
-
-        return response()->json([], 204);
+        return $this->taskService->delete($id);
     }
 }

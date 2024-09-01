@@ -30,13 +30,13 @@ class TaskService
     /**
      * Retorna todos os registros da tabela 'tasks' em formato JSON.
      *
-     * @return Collection|Task[]|JsonResponse
+     * @return JsonResponse
      */
     public function all()
     {
         try {
 
-            return $this->taskRepository->all();
+            return response()->json($this->taskRepository->all(), 200);
 
         } catch(\Exception $e) {
 
@@ -56,7 +56,7 @@ class TaskService
     {
         try {
 
-            return $this->taskRepository->create($data);
+            return response()->json($this->taskRepository->create($data), 201);
 
         } catch(\Exception $e) {
 
@@ -77,7 +77,7 @@ class TaskService
     {
         try {
 
-            return $this->taskRepository->update($data, $id);
+            return response()->json($this->taskRepository->update($data, $id), 200);
 
         } catch(\Exception $e) {
 
@@ -97,7 +97,7 @@ class TaskService
     {
         try {
 
-            return $this->taskRepository->delete($id);
+            return response()->json($this->taskRepository->delete($id,), 204);
 
         } catch(\Exception $e) {
 
