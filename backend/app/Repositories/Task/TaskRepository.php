@@ -48,7 +48,7 @@ class TaskRepository implements TaskRepositoryInterface
      */
     public function update(array $data, $id)
     {
-        $task = Task::findOrFail($id);
+        $task = $this->findTaskOrFail($id);
         $task->update($data);
 
         return $task;
@@ -59,13 +59,12 @@ class TaskRepository implements TaskRepositoryInterface
      * do registro. Retorna 'true' em caso de succeso, ou 'false' em caso
      * de falha.
      *
-     * @author Mateus Ferreira Martins <mateus_martins18@yahoo.com.br>
      * @param  string|int $id
      * @return void
      */
     public function delete($id)
     {
-        $task = Task::findOrFail($id);
+        $task = $this->findTaskOrFail($id);
         $task->delete();
     }
 
@@ -73,12 +72,24 @@ class TaskRepository implements TaskRepositoryInterface
      * Encontra e retorna um registro da tabela 'tasks', tendo como parametro
      * o identificador do registro.
      *
-     * @author Mateus Ferreira Martins <mateus_martins18@yahoo.com.br>
      * @param  string|int $id
      * @return Task
      */
     public function find($id)
     {
+        return $this->findTaskOrFail($id);
+    }
+
+    /**
+     * Encontra e retorna um registro da tabela 'tasks', tendo como parametro
+     * o identificador do registro, ou lanca um  execao, em caso de falha.
+     *
+     * @param  string|int $id
+     * @return Task
+     */
+    private function findTaskOrFail($id): Task
+    {
         return Task::findOrFail($id);
     }
+
 }
