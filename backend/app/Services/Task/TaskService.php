@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use App\Models\Task;
 use Illuminate\Database\Eloquent\Collection;
+use Mockery\MockInterface;
 
 /**
  * Servico responsavel acionar o repositorio das 'tasks' e validar o retorno
@@ -19,9 +20,9 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class TaskService
 {
-    protected TaskRepositoryInterface $taskRepository;
+    protected TaskRepositoryInterface|MockInterface $taskRepository;
 
-    public function __construct(TaskRepositoryInterface $taskRepository)
+    public function __construct(TaskRepositoryInterface|MockInterface $taskRepository)
     {
         $this->taskRepository = $taskRepository;
     }
