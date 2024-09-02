@@ -3,7 +3,6 @@
 namespace App\Services\Task;
 
 use App\Repositories\Task\TaskRepositoryInterface;
-use App\Repositories\Task\TaskRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use App\Models\Task;
@@ -22,9 +21,9 @@ class TaskService
 {
     protected TaskRepositoryInterface $taskRepository;
 
-    public function __construct()
+    public function __construct(TaskRepositoryInterface $taskRepository)
     {
-        $this->taskRepository = new TaskRepository();
+        $this->taskRepository = $taskRepository;
     }
 
     /**

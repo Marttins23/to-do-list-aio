@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\API\V1\Task;
 
 use App\Http\Controllers\Controller;
-use App\Models\Task;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use App\Services\Task\TaskService;
 use App\Http\Requests\Task\StoreTaskRequest;
@@ -28,9 +26,9 @@ class TaskController extends Controller
      */
     protected $taskService;
 
-    public function __construct()
+    public function __construct(TaskService $taskService)
     {
-        $this->taskService = new TaskService();
+        $this->taskService = $taskService;
     }
 
     /**
