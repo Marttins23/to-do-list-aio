@@ -12,13 +12,19 @@ use Mockery\MockInterface;
 
 class TaskServiceTest extends TestCase
 {
-    protected TaskRepositoryInterface|MockInterface $taskRepository;
+    /**
+     * Undocumented variable
+     *
+     * @var MockInterface|TaskRepositoryInterface>
+     */
+    protected $taskRepository;
     protected $taskService;
 
     protected function setUp(): void
     {
         parent::setUp();
 
+        $this->taskRepository = Mockery::mock(TaskRepositoryInterface::class);
         $this->app->instance(TaskRepositoryInterface::class, $this->taskRepository);
         $this->taskService = new TaskService($this->taskRepository);
     }
