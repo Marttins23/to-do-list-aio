@@ -8,17 +8,18 @@ use Tests\TestCase;
 use Illuminate\Http\JsonResponse;
 use App\Models\Task;
 use Mockery;
+use Mockery\MockInterface;
 
 class TaskServiceTest extends TestCase
 {
-    protected $taskRepository;
+    protected TaskRepositoryInterface|MockInterface $taskRepository;
     protected $taskService;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->taskRepository = Mockery::mock(TaskRepositoryInterface::class);
+        $this->app->instance(TaskRepositoryInterface::class, $this->taskRepository);
         $this->taskService = new TaskService($this->taskRepository);
     }
 

@@ -7,12 +7,13 @@ use App\Models\Task;
 use App\Services\Task\TaskService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery;
+use Mockery\MockInterface;
 
 class TaskControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected TaskService $taskService;
+    protected TaskService|MockInterface $taskService;
 
     public function setUp(): void
     {
