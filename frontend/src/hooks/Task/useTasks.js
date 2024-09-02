@@ -19,6 +19,7 @@ const useTasks = () => {
             .then(task => {
                 setTasks([...tasks, task]);
                 setNewTask('');
+                setErrors({});
             })
             .catch(error => handleErrors(error));
     };
@@ -30,13 +31,17 @@ const useTasks = () => {
                     task.id === editingTaskId ? updatedTask : task
                 ));
                 resetEditing();
+                setErrors({});
             })
             .catch(error => handleErrors(error));
     };
 
     const removeTask = (id) => {
         deleteTask(id)
-            .then(() => setTasks(tasks.filter(task => task.id !== id)))
+            .then(() => {
+                setTasks(tasks.filter(task => task.id !== id));
+                setErrors({});
+            })
             .catch(console.error);
     };
 
@@ -46,6 +51,7 @@ const useTasks = () => {
                 setTasks(tasks.map(task => 
                     task.id === id ? updatedTask : task
                 ));
+                setErrors({});
             })
             .catch(console.error);
     };
@@ -54,12 +60,14 @@ const useTasks = () => {
         setIsEditing(true);
         setEditingTaskId(task.id);
         setNewTask(task.title);
+        setErrors({});
     };
 
     const resetEditing = () => {
         setIsEditing(false);
         setEditingTaskId(null);
         setNewTask('');
+        setErrors({});
     };
 
     const handleErrors = (error) => {
